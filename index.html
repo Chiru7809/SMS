@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>studentManagementSystem </title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+   
+   
+    <!-- write javascript code for callling the function to check L4 behaviour  -->
+    <script>
+        
+        //1. for form1 ( add student) we write the validation function
+        function validation(){
+            let x = document.forms["myForm"]["SID"].value;
+            let y= document.forms["myForm"]["FN"].value;
+            let z=document.forms["myForm"]["LN"].value;
+            let a=document.forms["myForm"]["ADDRESS"].value;
+            let b=document.forms["myForm"]["PHONNUMBER"].value;
+            let c=document.forms["myForm"]["DOB"].value;
+            let d=document.forms["myForm"]["YOJ"].value;
+            let p=document.forms["myForm"]["GENDER"].value;
+            let q=document.forms["myForm"]["STATUS"].value;
+            let r=document.forms["myForm"]["DEPTID"].value;
+            let s=document.forms["myForm"]["SEMESTER"].value;
+
+
+            if(x==""){
+                alert("SID required");
+                return false;
+            }
+            if(x.length>10){
+                alert("SID should be less than  10 character");
+                return false;
+            }
+            if(y.length>10||y.length<3){
+                alert("First name should be in between 3 to 10 character");
+                return false;
+
+            }
+            if(z.length>10||z.length<3){
+                alert("Last name should be in between 3 to 10 character");
+                return false;
+            }
+            if(a.length>20||a.length<5){
+                alert("Address should be in between 5 to 20 character");
+                return false;
+            }
+            if(b.length!=10){
+                alert("Phone number incorrect / should be 10 digit only");
+                return false;
+            }
+            if(d.length!=4){
+                alert("Year is incorrect");
+                return false;
+            }
+            var obj = { "SID":x,"FN":y, "LN":z, "ADDRESS":a, "PHONNUMBER":b, "DOB":c , "YOJ":d, "GENDER":p, "STATUS":q, "DEPTID":r, "SEMESTER":s };
+            console.log(obj);
+            $.ajax({
+            method: "POST",
+            url: "http://localhost:2000/stdadd",
+            data: obj,
+            success : (result) => {
+            console.log("1",result);
+            alert(result.message);
+             },
+            error : (error) => {
+            console.log("2",error);
+            }
+            });
+
+
+            
+        
+        
+
+        }
+        </script>
+
+<script>
+    function getstudent()
+    {
+       let o= document.forms["myForm"]["SID"].value;
+       if(o==""){
+                alert("SID required");
+                return false;
+            }
+      var object2 = {"SID": o  }
+      console.log(object2);
+      $.ajax({
+      method: "POST",
+      url: "http://localhost:2000/getStudentList",
+      data: object2,
+      success : (result) => {
+        console.log("1",result);
+        document.myForm.FN.value=result.record.FN;
+        document.myForm.LN.value=result.record.LN;
+        document.myForm.ADDRESS.value=result.record.ADDRESS;
+        document.myForm.PHONNUMBER.value=result.record.PHONNUMBER;
+        document.myForm.DOB.value=result.record.DOB;
+        document.myForm.YOJ.value=result.record.YOJ;
+        document.myForm.GENDER.value=result.record.GENDER;
+        document.myForm.STATUS.value=result.record.STATUS;
+        document.myForm.DEPTID.value=result.record.DEPTID;
+        document.myForm.SEMESTER.value=result.record.SEMESTER;
+        alert(result.message);
+        
+      },
+      error : (error) => {
+        console.log("2",error);
+      }
+    });
+    }
+  </script>
+
+<script>
+    function updateStudent()
+    {
+        let j= document.forms["myForm"]["SID"].value;
+      var object3 = {"SID": j}
+      console.log(object3);
+       
+      
+      $.ajax({
+      method: "POST",
+      url: "http://localhost:2000/modifiedStudent",
+      data: object3,
+      success : (data) => {
+        console.log("1",data);
+        alert(data.message);
+      },
+      error : (error) => {
+        console.log("2",error);
+      }
+    });
+}
+  </script>
+
+<script>
+    function deleteStudent()
+    {
+        let k= document.forms["myForm"]["SID"].value;
+        if(k==""){
+                alert("SID required");
+                return false;
+            }
+
+
+      var object4 = {"SID": k}
+      console.log(object4);
+       
+      
+      $.ajax({
+      method: "POST",
+      url: "http://localhost:2000/deleteActiveUser",
+      data: object4,
+      success : (data) => {
+        console.log("1",data);
+        alert(data.message);
+      },
+      error : (error) => {
+        console.log("2",error);
+      }
+    });
+}
+  </script>
+
+        <script>
+//2. for form2 ( add mark ) we write the validation part
+        function validationAddMark(){
+            let e = document.forms["myForm1"]["SID"].value;
+            let w = document.forms["myForm1"]["SEMESTER"].value;
+            let v = document.forms["myForm1"]["COURSEID"].value;
+            let f = document.forms["myForm1"]["MARK"].value;
+
+            if(e.length>5){
+                alert("SID should be less than 5 character");
+                return false;
+            }
+            if(f>100){
+                alert("marks should be in between 0 to 100");
+                return false;
+            }
+            var obj1 = { "SID":e,"SEMESTER":w, "COURSEID":v, "MARK":f };
+            console.log(obj1);
+            $.ajax({
+            method: "POST",
+            url: "http://localhost:2000/markadd",
+            data: obj1,
+            success : (result) => {
+            console.log("1",result);
+            alert(result.message);
+             },
+            error : (error) => {
+            console.log("2",error);
+            }
+            });
+
+        }
+    </script>
+
+<script>
+    //2. for form2 ( add mark ) we write the validation part
+            function validationAddMark1(){
+                let e = document.forms["myForm1"]["SID"].value;
+                let w = document.forms["myForm1"]["SEMESTER"].value;
+                let v1= document.forms["myForm11"]["COURSEID"].value;
+                let f1 = document.forms["myForm11"]["MARK"].value;
+    
+               
+                if(f1>100){
+                    alert("marks should be in between 0 to 100");
+                    return false;
+                }
+                var obj11 = { "SID":e, "SEMESTER":w, "COURSEID":v1, "MARK":f1 };
+                console.log(obj11);
+                $.ajax({
+                method: "POST",
+                url: "http://localhost:2000/markadd",
+                data: obj11,
+                success : (result) => {
+                console.log("1",result);
+                alert(result.message);
+                 },
+                error : (error) => {
+                console.log("2",error);
+                }
+                });
+    
+            }
+        </script>
+
+<script>
+    //2. for form2 ( add mark ) we write the validation part
+            function validationAddMark2(){
+                let e = document.forms["myForm1"]["SID"].value;
+                let w = document.forms["myForm1"]["SEMESTER"].value;
+                let v11= document.forms["myForm12"]["COURSEID"].value;
+                let f11 = document.forms["myForm12"]["MARK"].value;
+    
+               
+                if(f11>100){
+                    alert("marks should be in between 0 to 100");
+                    return false;
+                }
+                var obj111 = { "SID":e, "SEMESTER":w, "COURSEID":v11, "MARK":f11 };
+                console.log(obj111);
+                $.ajax({
+                method: "POST",
+                url: "http://localhost:2000/markadd",
+                data: obj111,
+                success : (result) => {
+                console.log("1",result);
+                alert(result.message);
+                 },
+                error : (error) => {
+                console.log("2",error);
+                }
+                });
+    
+            }
+        </script>
+
+    <script>
+        //3. for form3 ( get mark) we write the validation code -->
+        function validationGetMark(){
+
+          
+            let m = document.forms["myForm2"]["SID"].value;
+                let n= document.forms["myForm2"]["SEMESTER"].value;
+                if(m.length>5){
+                alert("SID should be less than 5 character");
+                return false;
+            }
+                var obj1111 = { "SID":m, "SEMESTER":n };
+                console.log(obj1111);
+                $.ajax({
+                method: "POST",
+                url: "http://localhost:2000/getIndividualList",
+                data: obj1111,
+                success : (result) => {
+                console.log("1",result);
+                 },
+                error : (error) => {
+                console.log("2",error);
+                }
+                });
+         
+
+
+
+
+        }
+
+    </script>
+
+<script>
+    //3. for form3 ( get mark) we write the validation code -->
+    function getSemester(){
+        let qq= document.forms["myForm3"]["SEMESTER"].value;
+         
+        var obj0={"SEMESTER":qq}
+        console.log(obj0);
+           
+            $.ajax({
+            method: "POST",
+            url: "http://localhost:2000/getSemesterMarklist",
+            data:obj0,
+            
+            success : (result) => {
+            console.log("1",result);
+             },
+            error : (error) => {
+            console.log("2",error);
+            }
+            });
+     
+
+
+
+
+    }
+
+</script>
+
+
+<script>
+    //3. for form3 ( get mark) we write the validation code -->
+    function getCourseWiseMarks1() {
+        let qr= document.forms["myForm4"]["COURSEID"].value;
+         
+        var obj01={"COURSEID":qr}
+        console.log(obj01);
+           
+            $.ajax({
+            method: "POST",
+            url: "http://localhost:2000/getCoursewiseMarklist",
+            data:obj01,
+            
+            success : (result) => {
+            console.log("1",result);
+             },
+            error : (error) => {
+            console.log("2",error);
+            }
+            });
+     
+
+
+
+
+    }
+
+</script>
+
+<script>
+    //3. for form3 ( get mark) we write the validation code -->
+    function getCourseWiseMarks2() {
+        let qs= document.forms["myForm5"]["COURSEID"].value;
+         
+        var obj02={"COURSEID":qs}
+        console.log(obj02);
+           
+            $.ajax({
+            method: "POST",
+            url: "http://localhost:2000/getCoursewiseMarklist",
+            data:obj02,
+            
+            success : (result) => {
+            console.log("1",result);
+             },
+            error : (error) => {
+            console.log("2",error);
+            }
+            });
+     
+
+
+
+
+    }
+
+</script>
+
+<script>
+    //3. for form3 ( get mark) we write the validation code -->
+    function getCourseWiseMarks3() {
+        let qt= document.forms["myForm6"]["COURSEID"].value;
+         
+        var obj03={"COURSEID":qt}
+        console.log(obj03);
+           
+            $.ajax({
+            method: "POST",
+            url: "http://localhost:2000/getCoursewiseMarklist",
+            data:obj03,
+            
+            success : (result) => {
+            console.log("1",result);
+             },
+            error : (error) => {
+            console.log("2",error);
+            }
+            });
+     
+
+
+
+
+    }
+
+</script>
+   </head>
+   <!-- When click on submit button  it will call the function name validation and doing the validation  -->
+   <!-- html code  -->
+   <body style="background-color:DodgerBlue;">
+
+    <form  name="myForm" >
+       <center><h1 style="color:white;">STUDENT MANAGEMENT SYSTEM</h1></center>
+       <h2 style="color:wheat;">STUDENT DETAILS</h2><br>
+       <label>SID:</label>
+       <input type="text" name="SID"  placeholder="Enter student ID" required="">&nbsp;&nbsp;&nbsp;
+       <label>FN:</label>
+       <input type="text" name="FN" placeholder="Enter First Name" required=""> &nbsp;
+       <label>LN:</label>
+       <input type="text" name="LN" placeholder="Enter last Name"  required="">&nbsp;
+       <label>ADDRESS:</label>
+       <input type="text" name="ADDRESS" placeholder="Enter Address" required="" >
+       <label>PHONE:</label>
+       <input type="text" name="PHONNUMBER"placeholder="Enter phone number" required="" >
+       <label>GENDER:
+           <select name="GENDER">
+           <option  value="M">MALE</option>
+           <option  value="F">FEMALE</option>
+       </select>
+    </label> 
+    <label>DOB:</label>
+    <input type="text" name="DOB" placeholder="yyyy-mm-dd" required=""><br><br><br>
+    <label>YOJ:</label>
+    <input type="text" name="YOJ" placeholder="Enter year of joining" required="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <label>STATUS:
+        <select name="STATUS">
+            <option  value="A">ACTIVE</option>
+            <option  value="I">INACTIVE</option>
+        </select>
+    </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <label >DEPT ID:
+        <select name="DEPTID">
+            <option  value="CS">CS</option>
+            <option  value="ME">ME</option>
+            <option  value="EC">EC</option>
+        </select>
+    </label><br><br><br><br>
+    <label>SEMESTER:
+        <select name="SEMESTER" >
+            <option value="1st">1st</option>
+            <option  value="2nd">2nd</option>
+            <option value="3rd" >3rd</option>
+            <option value="4th">4th</option>
+            <option value="5th">5th</option>
+            <option value="6th">6th</option>
+            <option value="7th">7th</option>
+            <option value="8th">8th</option>
+
+        </select>
+    </label><br><br>
+    <center>
+    <input   type="button" value="CLEAR">&nbsp;&nbsp;&nbsp;
+    <input  style="color:green;" type="button" onclick="validation()" value="ADD" >&nbsp;&nbsp;&nbsp;
+    <input style="color:green;" type="button" onclick=" getstudent()" value="GET">&nbsp;&nbsp;&nbsp;
+    <input   type="button"  onclick="deleteStudent()" value="DELETE">
+    <input  style="color:green;" type="button" onclick="updateStudent()" value="UPDATE"/>&nbsp;&nbsp;&nbsp;
+   </center>
+    </form>
+
+
+
+<!-- markadding -->
+<!-- When click on submit button  it will call the function name validationAddMark and doing the validation  -->
+   <!-- html code  -->
+<form name="myForm1">
+
+<h2 style="color:wheat;">ADDING MARKS</h2><br>
+       <label>SID:</label>
+       <input type="text" name="SID" placeholder="Enter student ID" required="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+       <label>SEMESTER:
+           <select name="SEMESTER">
+               <option value="1st">1st</option>
+               <option value="2nd">2nd</option>
+               <option value="3rd">3rd</option>
+               <option value="4th">4th</option>
+               <option value="5th">5th</option>
+               <option value="6th">6th</option>
+               <option value="7th">7th</option>
+               <option value="8th">8th</option>
+
+           </select>
+       </label><br><br>
+    <label>COURSEID:
+        <select name="COURSEID">
+            <option value="CS01">CS01</option>
+            <option value="ME01">ME01</option>
+            <option value="EC01">EC01</option>
+        </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <label>MARK:</label>
+    <input type="text" name="MARK" placeholder="Enter marks" value=""min="0" max="100" required="">
+    <input type="button"  onclick="validationAddMark()"  value="ADD1" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    
+    <!-- <br><br> --> 
+
+</form>
+
+<form name=myForm11>
+
+<label>COURSEID: 
+    <select name="COURSEID">
+        <option value="CS02">CS02</option>
+        <option value="ME02">ME02</option>
+        <option value="EC02">EC02</option>
+    </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<label>MARK:</label>
+<input type="text" name="MARK" placeholder="Enter marks" value=""min="0" max="100" required="">
+<input type="button"  onclick="validationAddMark1()"  value="ADD2" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+</form>
+
+<form name=myForm12>
+
+    <label>COURSEID:
+        <select name="COURSEID">
+            <option value="CS03">CS03</option>
+            <option value="ME03">ME03</option>
+            <option value="EC03">EC03</option>
+        </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <label>MARK:</label>
+    <input type="text" name="MARK" placeholder="Enter marks" value=""min="0" max="100" required="">
+    <input type="button"  onclick="validationAddMark2()"  value="ADD3" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</form>
+
+   <!-- generating the report  -->
+   <!-- When click on submit button  it will call the function name validationGetmark and doing the validation  -->
+   <!-- html code  -->
+
+   <form name="myForm2">
+
+   <h2 style="color:wheat;">GENERATING MARKS REPORT</h2><br>
+   <label>SID:</label>
+   <input type="text"  name="SID" placeholder="Enter student ID" required="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   <label>SEMESTER
+<select name="SEMESTER">
+    <option value="1st">1st</option>
+    <option value="2nd">2nd</option>
+    <option value="3rd">3rd</option>
+    <option value="4th">4th</option>
+    <option value="5th">5th</option>
+    <option value="6th">6th</option>
+    <option value="7th">7th</option>
+    <option value="8th">8th</option>
+
+</select>
+</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="button"  onclick = "validationGetMark()" value="GETMYMARKSCARD"><br><br>
+
+ 
+
+</form> 
+
+<form name="myForm3">
+    <label>SEMESTER
+        <select name="SEMESTER">
+            <option value="1st">1st</option>
+            <option value="2nd">2nd</option>
+            <option value="3rd">3rd</option>
+            <option value="4th">4th</option>
+            <option value="5th">5th</option>
+            <option value="6th">6th</option>
+            <option value="7th">7th</option>
+            <option value="8th">8th</option>
+        
+        </select>
+        </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="button" onclick="getSemester()"value="GETSEMESTERMARKS"> <br><br>
+</form>
+
+<form name="myForm4">
+    <label>COURSEID:
+        <select name="COURSEID">
+            <option value="CS01">CS01</option>
+            <option value="ME01">ME01</option>
+            <option value="EC01">EC01</option>
+        </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="button" onclick="getCourseWiseMarks1()" value="GETCOURSEWISEMARK"><br>
+    </form>
+
+    <form name="myForm5">
+        <label>COURSEID:
+            <select name="COURSEID">
+                <option value="CS02">CS02</option>
+                <option value="ME02">ME02</option>
+                <option value="EC02">EC02</option>
+            </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="button" onclick="getCourseWiseMarks2()" value="GETCOURSEWISEMARK"><br>
+        </form>
+
+        <form name="myForm6">
+            <label>COURSEID:
+                <select name="COURSEID">
+                    <option value="CS03">CS03</option>
+                    <option value="ME03">ME03</option>
+                    <option value="EC03">EC03</option>
+                </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="button" onclick="getCourseWiseMarks3()" value="GETCOURSEWISEMARK"><br>
+            </form>
+
+   </body>
+</html>
