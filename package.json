@@ -1,12 +1,12 @@
 {
-  "name": "sms",
+  "name": "project",
   "version": "1.0.0",
-  "description": "STUDENTMANAGEMENTSYSTEM",
+  "description": "test project",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "CHIRANJIB",
+  "author": "sathyareddy",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
